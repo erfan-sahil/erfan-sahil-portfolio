@@ -427,6 +427,10 @@ body {
     animation: nav-backdrop-in 0.25s ease both;
   }
 
+  .nav-backdrop.is-closing {
+    animation: nav-backdrop-out 0.25s ease both;
+  }
+
   .nav-toggle {
     display: inline-flex;
     align-items: center;
@@ -526,11 +530,15 @@ body {
     color: var(--ink);
     opacity: 0;
     transform: translateY(6px);
-    transition: background-color 0.2s ease;
+    transition:
+      opacity 0.25s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.2s ease;
   }
 
   .nav-drawer.is-open .nav-drawer-link {
-    animation: nav-link-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .nav-drawer-link:hover,
@@ -566,14 +574,12 @@ body {
   }
 }
 
-@keyframes nav-link-in {
+@keyframes nav-backdrop-out {
   from {
-    opacity: 0;
-    transform: translateY(6px);
+    opacity: 1;
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 0;
   }
 }
 
@@ -632,9 +638,13 @@ body {
 
   @media (max-width: 639px) {
     .nav-drawer.is-open .nav-drawer-link {
-      animation: none;
       opacity: 1;
       transform: none;
+      transition: none;
+    }
+
+    .nav-drawer-link {
+      transition: none;
     }
 
     .nav-drawer {
@@ -645,7 +655,8 @@ body {
       transition: none;
     }
 
-    .nav-backdrop {
+    .nav-backdrop,
+    .nav-backdrop.is-closing {
       animation: none;
     }
   }

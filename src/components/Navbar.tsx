@@ -1,36 +1,75 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { navLinks, personal } from "@/data/portfolio";
+
+const MENU_CLOSE_MS = 450;
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [exiting, setExiting] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const menuActive = open || exiting;
+
+  function clearCloseTimer() {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  }
+
+  function openMenu() {
+    clearCloseTimer();
+    setExiting(false);
+    setOpen(true);
+  }
+
+  function closeMenu() {
+    if (!open || exiting) return;
+    setOpen(false);
+    setExiting(true);
+    clearCloseTimer();
+    closeTimer.current = setTimeout(() => {
+      setExiting(false);
+      closeTimer.current = null;
+    }, MENU_CLOSE_MS);
+  }
+
+  function toggleMenu() {
+    if (open) closeMenu();
+    else openMenu();
+  }
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    document.body.style.overflow = menuActive ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [menuActive]);
 
   useEffect(() => {
     function onResize() {
       if (window.matchMedia("(min-width: 640px)").matches) {
+        clearCloseTimer();
         setOpen(false);
+        setExiting(false);
       }
     }
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  useEffect(() => () => clearCloseTimer(), []);
+
   return (
     <header className="sticky top-0 z-50">
-      {open && (
+      {menuActive && (
         <button
           type="button"
-          className="nav-backdrop"
+          className={`nav-backdrop ${open ? "is-open" : "is-closing"}`}
           aria-label="Close menu"
-          onClick={() => setOpen(false)}
+          onClick={closeMenu}
         />
       )}
 
@@ -40,7 +79,7 @@ export function Navbar() {
             <a
               href="#home"
               className="text-[15px] font-semibold tracking-tight transition-colors hover:text-accent"
-              onClick={() => setOpen(false)}
+              onClick={closeMenu}
             >
               {personal.brand}
               <span className="text-accent">.</span>
@@ -62,7 +101,7 @@ export function Navbar() {
               aria-expanded={open}
               aria-controls="mobile-nav"
               aria-label={open ? "Close menu" : "Open menu"}
-              onClick={() => setOpen((v) => !v)}
+              onClick={toggleMenu}
             >
               <span
                 className={`nav-burger ${open ? "is-open" : ""}`}
@@ -83,9 +122,11 @@ export function Navbar() {
                   href={link.href}
                   className="nav-drawer-link"
                   style={{
-                    animationDelay: `${index * 0.05 + 0.06}s`,
+                    transitionDelay: open
+                      ? `${index * 0.05 + 0.06}s`
+                      : `${(navLinks.length - 1 - index) * 0.04}s`,
                   }}
-                  onClick={() => setOpen(false)}
+                  onClick={closeMenu}
                 >
                   <span className="nav-drawer-dot" aria-hidden />
                   {link.label}
