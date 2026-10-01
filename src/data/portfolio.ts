@@ -36,8 +36,8 @@ export const experience = [
     period: "Sep 2025 — Present",
   },
   {
-    id: "college-master-mid",
-    company: "College Master Mid",
+    id: "college-mastermind",
+    company: "College Mastermind",
     role: "Frontend Engineer",
     period: "Dec 2024 — Mar 2025",
   },
@@ -82,6 +82,10 @@ export const skills = [
   "TypeScript",
   "TailwindCSS",
   "Git",
+  "Docker",
+  "Redis",
+  "Nginx",
+  "BullMQ",
   "Shadcn UI",
 ] as const;
 
