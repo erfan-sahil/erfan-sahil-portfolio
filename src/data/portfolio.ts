@@ -56,6 +56,7 @@ export const projects = [
       "MongoDB",
       "Mongoose",
       "Redis",
+      "Docker",
     ],
     link: "https://nex-cart-client.vercel.app/",
     image: {
