@@ -15,7 +15,7 @@ export const personal = {
 } as const;
 
 export const meta = {
-  title: "Portfolio | Software Engineer",
+  title: "Sahil",
   description:
     "Personal portfolio showcasing my software engineering projects and skills",
 } as const;
@@ -44,6 +44,21 @@ export const experience = [
 ] as const;
 
 export const projects = [
+  {
+    id: "nexcart",
+    name: "NexCart",
+    description:
+      "Full multi-vendor e-commerce system for independent stores — a Next.js shopper site, plus React apps for vendors and admins.",
+    tech: [
+      "Next.js",
+      "React",
+      "Express.js",
+      "MongoDB",
+      "Mongoose",
+      "Redis",
+    ],
+    link: "https://nex-cart-client.vercel.app/",
+  },
   {
     id: "portulika",
     name: "Portulika",
