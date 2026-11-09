@@ -58,6 +58,12 @@ export const projects = [
       "Redis",
     ],
     link: "https://nex-cart-client.vercel.app/",
+    image: {
+      src: "/projects/nexcart.png",
+      alt: "NexCart storefront homepage with a fresh fashion drops hero banner",
+      width: 1024,
+      height: 569,
+    },
   },
   {
     id: "portulika",
@@ -66,6 +72,12 @@ export const projects = [
       "Story writing platform in Bangladesh where users can write and publish stories like a book-writing experience.",
     tech: ["Next.js", "TypeScript", "TailwindCSS", "Shadcn UI"],
     link: "https://portulika.com/",
+    image: {
+      src: "/projects/portulika.png",
+      alt: "Portulika home page showing a grid of book and story covers",
+      width: 1024,
+      height: 554,
+    },
   },
   {
     id: "nextask",
@@ -82,6 +94,12 @@ export const projects = [
       "Mongoose",
     ],
     link: "https://nextask-client.vercel.app/",
+    image: {
+      src: "/projects/nextask.png",
+      alt: "NexTask dashboard with active projects, open tasks, and recent activity",
+      width: 1024,
+      height: 553,
+    },
   },
 ] as const;
 
