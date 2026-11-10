@@ -34,10 +34,29 @@ type ProjectImage = (typeof projects)[number]["image"];
 
 const getHost = (url: string) => new URL(url).host;
 
+const CORNER_MARKS = [
+  "top-1.5 left-1.5 rounded-tl-md border-t border-l group-hover:top-2.5 group-hover:left-2.5",
+  "top-1.5 right-1.5 rounded-tr-md border-t border-r group-hover:top-2.5 group-hover:right-2.5",
+  "bottom-1.5 left-1.5 rounded-bl-md border-b border-l group-hover:bottom-2.5 group-hover:left-2.5",
+  "bottom-1.5 right-1.5 rounded-br-md border-b border-r group-hover:bottom-2.5 group-hover:right-2.5",
+];
+
+/** Viewfinder-style corner brackets — structural accent, no pattern. */
+function CornerMarks() {
+  return CORNER_MARKS.map((position) => (
+    <span
+      key={position}
+      aria-hidden
+      className={`absolute size-2.5 border-white/25 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:border-muted motion-reduce:transition-none ${position}`}
+    />
+  ));
+}
+
 function BrowserFrame({ host, image }: { host: string; image: ProjectImage }) {
   return (
-    <div className="relative shrink-0 overflow-hidden rounded-lg border border-white/[0.07] bg-[radial-gradient(circle,rgba(255,255,255,0.14)_0.6px,transparent_0.8px)] bg-[length:9px_9px] p-3 sm:w-[46%] sm:p-3.5">
-      <div className="relative overflow-hidden rounded-md border border-white/10 bg-[#0e0e0e] shadow-[0_12px_28px_-10px_rgba(0,0,0,0.9)] transition-transform duration-500 ease-out group-hover:-translate-y-0.5 sm:group-hover:-rotate-[0.6deg]">
+    <div className="relative shrink-0 overflow-hidden rounded-lg bg-bg p-4 sm:w-[46%] sm:p-5">
+      <CornerMarks />
+      <div className="relative overflow-hidden rounded-md border border-white/10 bg-[#0e0e0e] shadow-[0_12px_28px_-10px_rgba(0,0,0,0.9)]">
         <div className="flex items-center gap-1.5 border-b border-white/[0.08] bg-white/[0.05] px-2.5 py-1.5">
           <span className="size-1.5 rounded-full bg-[#ff5f57]/60 transition-colors group-hover:bg-[#ff5f57]" />
           <span className="size-1.5 rounded-full bg-[#febc2e]/60 transition-colors group-hover:bg-[#febc2e]" />
@@ -54,7 +73,7 @@ function BrowserFrame({ host, image }: { host: string; image: ProjectImage }) {
             width={image.width}
             height={image.height}
             sizes="(min-width: 640px) 280px, calc(100vw - 8rem)"
-            className="h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="h-full w-full origin-center scale-[1.06] object-cover object-top transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100"
           />
         </div>
       </div>
@@ -81,7 +100,7 @@ export function Projects() {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-2.5 transition-colors duration-300 hover:border-accent/30 hover:bg-white/[0.04] sm:flex-row sm:gap-4"
+                  className="card-block group flex flex-col gap-3 p-2.5 sm:flex-row sm:gap-4"
                 >
                   <BrowserFrame
                     host={getHost(project.link)}
